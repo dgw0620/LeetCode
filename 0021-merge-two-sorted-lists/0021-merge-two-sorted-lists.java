@@ -10,34 +10,14 @@
  */
 class Solution {
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        ListNode answer = new ListNode();
-        ListNode head = answer;
-        
-        while (list1 != null && list2 != null) {
-            if (list1.val <= list2.val) {
-                answer.next = list1;
-                if (list1.next != null) list1 = list1.next;
-                else {
-                    list1 = null;
-                    answer = answer.next;
-                    break;
-                }
-            } else {
-                answer.next = list2;
-                if (list2.next != null) list2 = list2.next;
-                else {
-                    list2 = null;
-                    answer = answer.next;
-                    break;
-                }
-            }
-            answer = answer.next;
+        if (list1 == null) return list2;
+        if (list2 == null) return list1;
+        if (list1.val <= list2.val) {
+            list1.next = mergeTwoLists(list1.next, list2);
+            return list1;
+        } else {
+            list2.next = mergeTwoLists(list1, list2.next);
+            return list2;
         }
-        
-        if (list1 == null && list2 == null) return null;
-        else if (list1 == null) answer.next = list2;
-        else if (list2 == null) answer.next = list1;
-        
-        return head.next;
     }
 }
